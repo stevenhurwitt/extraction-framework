@@ -8,6 +8,8 @@ target/
 *.log
 *.lck
 *.tmp
+*.txt
+*.json
 java_pid*
 dump/test-basedir
 core/.project

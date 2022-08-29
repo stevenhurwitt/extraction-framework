@@ -1,7 +1,7 @@
-name: docker
+name: new
 on: [push, pull_request]
 jobs:
-  docker:
+  new:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
