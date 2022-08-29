@@ -1,5 +1,8 @@
 target/
 .idea/
+.metals/
+.ipynb_checkpoints/
+.vscode/
 *.iml
 .cache
 *.log
@@ -7,3 +10,7 @@ target/
 *.tmp
 java_pid*
 dump/test-basedir
+core/.project
+dump/.project
+scripts/.project
+server/.project
