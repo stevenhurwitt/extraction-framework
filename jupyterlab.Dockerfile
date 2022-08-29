@@ -6,7 +6,7 @@ ARG spark_version=3.2.0
 ARG jupyterlab_version=3.2.5
 # ARG psutil_version=5.9.0
 
-COPY ./ ${SHARED_WORKSPACE}/
+COPY ./requirements.txt ${SHARED_WORKSPACE}/requirements.txt
 
 # base python
 RUN apt-get update -y && \
