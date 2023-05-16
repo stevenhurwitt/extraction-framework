@@ -120,7 +120,7 @@
 	{{PropertyMapping | templateProperty = الطول | ontologyProperty = height | unit = Length }}
 	{{PropertyMapping | templateProperty = الوزن | ontologyProperty = weight | unit = Mass }}
 	{{PropertyMapping | templateProperty = الفريق | ontologyProperty = team }}
-}}</text></revision></page><page><title>Mapping ar:ص.م قناة تلفزية</title><ns>250</ns><id>5736</id><revision><id>18243</id><timestamp>2012-05-08T17:37:20Z</timestamp><text>{{TemplateMapping
+}}</text></revision></page><page><title>Mapping ar:ص.م قناة تلفزية</title><ns>250</ns><id>5736</id><revision><id>59581</id><timestamp>2023-05-06T14:46:34Z</timestamp><text>{TemplateMapping
 | mapToClass = TelevisionStation
 | mappings =
 {{PropertyMapping | templateProperty = اسم | ontologyProperty = foaf:name }}
