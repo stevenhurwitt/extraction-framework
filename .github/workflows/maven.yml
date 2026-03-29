@@ -15,10 +15,15 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+<<<<<<< HEAD
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       # needed for Wikimedia API calls
       JAVA_TOOL_OPTIONS: '-Dhttp.agent=curl/8.6.0 -Dextract.wikiapi.customUserAgent.enabled=true -Dextract.wikiapi.customUserAgent.text=curl/8.6.0' 
+=======
+    # env:
+    #   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+>>>>>>> 50fcf195942a6078aaa51fdd2698a1b09f499243
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 1.8

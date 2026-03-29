@@ -21583,7 +21583,11 @@ Template Properties not mapped yet:
 }}</text></revision></page><page><title>Mapping en:Infobox person/Wikidata</title><ns>204</ns><id>13580</id><revision><id>56074</id><timestamp>2021-10-02T10:29:18Z</timestamp><text>{{TemplateMapping
 | mapToClass = Person
 | mappings =
+<<<<<<< HEAD
 &lt;!-- basic parameter --&gt;
+=======
+&lt;!-- basic parameter -->
+>>>>>>> 50fcf195942a6078aaa51fdd2698a1b09f499243
 	{{PropertyMapping | templateProperty = name | ontologyProperty = foaf:name }}
 	{{PropertyMapping | templateProperty = birthdate | ontologyProperty = birthDate }}
 	{{PropertyMapping | templateProperty = birth_date | ontologyProperty = birthDate }}
@@ -21609,7 +21613,11 @@ Template Properties not mapped yet:
 		{{DateIntervalMapping | templateProperty = yearsactive | startDateOntologyProperty = functionStartDate | endDateOntologyProperty = functionEndDate}}
 		{{DateIntervalMapping | templateProperty = yearsactive | startDateOntologyProperty = functionStartYear | endDateOntologyProperty = functionEndYear}}
 	}}
+<<<<<<< HEAD
 &lt;!-- end of basic parameters  --&gt;
+=======
+&lt;!-- end of basic parameters  -->
+>>>>>>> 50fcf195942a6078aaa51fdd2698a1b09f499243
 	{{GeocoordinatesMapping | ontologyProperty = restingPlacePosition | coordinates = resting_place_coordinates }}
 	{{DateIntervalMapping | templateProperty = years_active | startDateOntologyProperty = activeYearsStartYear| endDateOntologyProperty = activeYearsEndYear }}
 	{{DateIntervalMapping | templateProperty = yearsactive | startDateOntologyProperty = activeYearsStartYear| endDateOntologyProperty = activeYearsEndYear }}
@@ -25621,7 +25629,11 @@ Template Properties not mapped yet:
     {{ PropertyMapping | templateProperty = pass_percent | ontologyProperty = visitorsPercentageChange }}
     {{ PropertyMapping | templateProperty = pass_system | ontologyProperty = passengersUsedSystem }}
     {{ PropertyMapping | templateProperty = website | ontologyProperty = foaf:homepage }}
+<<<<<<< HEAD
     &lt;!-- needs mapping language extension {{ PropertyMapping | templateProperty = services | ontologyProperty = ??? }} --&gt;
+=======
+    &lt;!-- needs mapping language extension {{ PropertyMapping | templateProperty = services | ontologyProperty = ??? }} -->
+>>>>>>> 50fcf195942a6078aaa51fdd2698a1b09f499243
  }}</text></revision></page><page><title>Mapping en:Infobox street</title><ns>204</ns><id>3336</id><revision><id>48663</id><timestamp>2015-08-06T16:39:04Z</timestamp><text>{{TemplateMapping
 | mapToClass = Road
 | mappings =

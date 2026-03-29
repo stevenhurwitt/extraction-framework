@@ -1205,7 +1205,11 @@
           | endDateOntologyProperty   = activeYearsEndYear
         }}
 
+<<<<<<< HEAD
 }}</text></revision></page><page><title>Mapping fr:Infobox Boxeur</title><ns>210</ns><id>7478</id><revision><id>59086</id><timestamp>2022-10-09T20:15:53Z</timestamp><text>{{TemplateMapping
+=======
+}}</text></revision></page><page><title>Mapping fr:Infobox Boxeur</title><ns>210</ns><id>7478</id><revision><id>47414</id><timestamp>2015-04-01T07:18:04Z</timestamp><text>{{TemplateMapping
+>>>>>>> 50fcf195942a6078aaa51fdd2698a1b09f499243
 | mapToClass = Boxer
 | mappings =
         {{PropertyMapping | templateProperty = légende | ontologyProperty = thumbnailCaption }}
@@ -2319,7 +2323,11 @@
         }}
         {{PropertyMapping | templateProperty = telcode| ontologyProperty = areaCode }}
         {{PropertyMapping | templateProperty = divers| ontologyProperty = language }}
+<<<<<<< HEAD
 }}</text></revision></page><page><title>Mapping fr:Infobox Commune de France</title><ns>210</ns><id>6911</id><revision><id>59088</id><timestamp>2022-10-09T20:17:21Z</timestamp><text>{{TemplateMapping 
+=======
+}}</text></revision></page><page><title>Mapping fr:Infobox Commune de France</title><ns>210</ns><id>6911</id><revision><id>58804</id><timestamp>2022-06-17T14:20:59Z</timestamp><text>{{TemplateMapping 
+>>>>>>> 50fcf195942a6078aaa51fdd2698a1b09f499243
 | mapToClass = Settlement 
 | mappings = 
         {{ConstantMapping | ontologyProperty = country | value = France }} 
@@ -2387,6 +2395,16 @@
         {{PropertyMapping | templateProperty = population | ontologyProperty = population }}
         {{PropertyMapping | templateProperty = année_pop | ontologyProperty = year }}
         {{PropertyMapping | templateProperty = province | ontologyProperty = province }}
+<<<<<<< HEAD
+=======
+{{ Condition
+  | templateProperty = image
+  | operator = contains
+  | value = Photomontage
+  | mapping = {{ TemplateMapping | mapToClass = depictionDescription | mappings =
+{{PropertyMapping | ontologyProperty = légende | templateProperty = thumbnailCaption }} }}
+}}
+>>>>>>> 50fcf195942a6078aaa51fdd2698a1b09f499243
 
 }}</text></revision></page><page><title>Mapping fr:Infobox Commune de Hongrie</title><ns>210</ns><id>6898</id><revision><id>45226</id><timestamp>2015-02-12T19:58:38Z</timestamp><text>{{TemplateMapping
 | mapToClass = Settlement
@@ -3995,7 +4013,11 @@
            {{PropertyMapping | templateProperty = argent CN | ontologyProperty = numberOfSilverMedalsWon }}
            {{PropertyMapping | templateProperty = bronze CN | ontologyProperty = numberOfBronzeMedalsWon }}
         }}
+<<<<<<< HEAD
 }}</text></revision></page><page><title>Mapping fr:Infobox Géographie nationale</title><ns>210</ns><id>7045</id><revision><id>59085</id><timestamp>2022-10-09T20:05:05Z</timestamp><text>{{TemplateMapping 
+=======
+}}</text></revision></page><page><title>Mapping fr:Infobox Géographie nationale</title><ns>210</ns><id>7045</id><revision><id>58799</id><timestamp>2022-06-10T08:40:27Z</timestamp><text>{{TemplateMapping 
+>>>>>>> 50fcf195942a6078aaa51fdd2698a1b09f499243
 | mapToClass = Area 
 | mappings = 
         {{PropertyMapping | templateProperty = carte | ontologyProperty = map }}
@@ -5053,6 +5075,7 @@
  {{PropertyMapping | templateProperty = site | ontologyProperty = foaf:homepage }}
  {{PropertyMapping | templateProperty = légende | ontologyProperty = thumbnailCaption }}
  {{GeocoordinatesMapping | latitude = latitude  | longitude = longitude }}
+<<<<<<< HEAD
 }}</text></revision></page><page><title>Mapping fr:Infobox Municipalité du Canada</title><ns>210</ns><id>14261</id><revision><id>59084</id><timestamp>2022-10-09T19:54:28Z</timestamp><text>{{TemplateMapping
 | mapToClass = Settlement
 | mappings =
@@ -5131,6 +5154,8 @@
         {{PropertyMapping | templateProperty = fond | ontologyProperty = foundedBy}}
         {{PropertyMapping | templateProperty = datefond | ontologyProperty = foundingDate }}
         {{PropertyMapping | templateProperty = const | ontologyProperty = foundingDate }}
+=======
+>>>>>>> 50fcf195942a6078aaa51fdd2698a1b09f499243
 }}</text></revision></page><page><title>Mapping fr:Infobox Musique (artiste)</title><ns>210</ns><id>4386</id><revision><id>57109</id><timestamp>2022-03-12T20:26:17Z</timestamp><text>{{ConditionalMapping
 | cases =
  {{Condition
@@ -5223,8 +5248,13 @@
     {{PropertyMapping | templateProperty = période | ontologyProperty = duration }}
     {{PropertyMapping | templateProperty = capacité | ontologyProperty = numberOfPeopleAttending }}
 }}</text></revision></page><page><title>Mapping fr:Infobox Musique (œuvre)</title><ns>210</ns><id>4387</id><revision><id>57388</id><timestamp>2022-04-01T17:41:29Z</timestamp><text>{{ConditionalMapping
+<<<<<<< HEAD
 &lt;!-- Recognized charte = album, live, ep, compilation, remix, vidéo, bande originale, single, single promotionnel, Chanson --&gt;
 &lt;!--  --&gt;
+=======
+&lt;!-- Recognized charte = album, live, ep, compilation, remix, vidéo, bande originale, single, single promotionnel, Chanson -->
+&lt;!--  -->
+>>>>>>> 50fcf195942a6078aaa51fdd2698a1b09f499243
 | cases =
  {{Condition
     | templateProperty = charte
@@ -5396,7 +5426,11 @@ Mapping_fr:Infobox_Musique_(œuvre): Couldn't load property mapping on page Mapp
            {{PropertyMapping | templateProperty = suivant | ontologyProperty = subsequentWork }}
            {{PropertyMapping | templateProperty = date suiv | ontologyProperty = year }}   
        }}
+<<<<<<< HEAD
 --&gt;
+=======
+-->
+>>>>>>> 50fcf195942a6078aaa51fdd2698a1b09f499243
  
        {{IntermediateNodeMapping
          | nodeClass = WorkSequence 
@@ -5410,7 +5444,11 @@ Mapping_fr:Infobox_Musique_(œuvre): Couldn't load property mapping on page Mapp
        }}
  
 
+<<<<<<< HEAD
 }}</text></revision></page><page><title>Mapping fr:Infobox Musique classique (personnalité)</title><ns>210</ns><id>5925</id><revision><id>28132</id><timestamp>2013-08-31T18:27:08Z</timestamp><text>&lt;!-- For an overview over all known types see: http://fr.wikipedia.org/wiki/Mod%C3%A8le:Infobox_Musique_classique_(personnalit%C3%A9)#Charte_graphique --&gt;
+=======
+}}</text></revision></page><page><title>Mapping fr:Infobox Musique classique (personnalité)</title><ns>210</ns><id>5925</id><revision><id>28132</id><timestamp>2013-08-31T18:27:08Z</timestamp><text>&lt;!-- For an overview over all known types see: http://fr.wikipedia.org/wiki/Mod%C3%A8le:Infobox_Musique_classique_(personnalit%C3%A9)#Charte_graphique -->
+>>>>>>> 50fcf195942a6078aaa51fdd2698a1b09f499243
 {{ConditionalMapping
 
 | cases =
@@ -5677,14 +5715,22 @@ Mapping_fr:Infobox_Musique_(œuvre): Couldn't load property mapping on page Mapp
     {{ PropertyMapping | templateProperty = site web | ontologyProperty = foaf:homepage }}
     {{ PropertyMapping | templateProperty = devise | ontologyProperty = motto }}
     {{GeocoordinatesMapping | latitude = latitude | longitude = longitude }}
+<<<<<<< HEAD
 }}</text></revision></page><page><title>Mapping fr:Infobox Organisation2</title><ns>210</ns><id>14145</id><revision><id>59087</id><timestamp>2022-10-09T20:16:33Z</timestamp><text>{{ TemplateMapping | mapToClass = Organisation 
+=======
+}}</text></revision></page><page><title>Mapping fr:Infobox Organisation2</title><ns>210</ns><id>14145</id><revision><id>58808</id><timestamp>2022-06-17T15:32:56Z</timestamp><text>{{ TemplateMapping | mapToClass = Organisation 
+>>>>>>> 50fcf195942a6078aaa51fdd2698a1b09f499243
 | mappings = 
     {{ PropertyMapping | templateProperty = nom | ontologyProperty = foaf:name }}
     {{IntermediateNodeMapping
         | nodeClass = Image
         | correspondingProperty = logo
         | mappings =
+<<<<<<< HEAD
            {{PropertyMapping | templateProperty = logo | ontologyProperty = logo }} 
+=======
+           {{PropertyMapping | templateProperty = logo | ontologyProperty = Logo }} 
+>>>>>>> 50fcf195942a6078aaa51fdd2698a1b09f499243
            {{PropertyMapping | templateProperty = légende logo | ontologyProperty = thumbnailCaption }} 
            {{PropertyMapping | templateProperty = taille logo | ontologyProperty = sizeLogo }} 
 
@@ -5746,6 +5792,7 @@ Mapping_fr:Infobox_Musique_(œuvre): Couldn't load property mapping on page Mapp
     {{ PropertyMapping | templateProperty = slogan | ontologyProperty = motto }}
     {{ PropertyMapping | templateProperty = association_slogan | ontologyProperty = motto }}
     {{GeocoordinatesMapping | latitude = latitude | longitude = longitude }}
+<<<<<<< HEAD
 }}</text></revision></page><page><title>Mapping fr:Infobox Ouvrage</title><ns>210</ns><id>14263</id><revision><id>59090</id><timestamp>2022-10-09T20:38:19Z</timestamp><text>{{TemplateMapping
 | mapToClass = WrittenWork
 | mappings =
@@ -5763,6 +5810,8 @@ Mapping_fr:Infobox_Musique_(œuvre): Couldn't load property mapping on page Mapp
 	{{PropertyMapping | templateProperty = partie de | ontologyProperty = isPartOf }}
 	{{PropertyMapping | templateProperty = personnage | ontologyProperty = mainCharacter }}
 	{{PropertyMapping | templateProperty = traduction | ontologyProperty = translator }}
+=======
+>>>>>>> 50fcf195942a6078aaa51fdd2698a1b09f499243
 }}</text></revision></page><page><title>Mapping fr:Infobox Parti politique</title><ns>210</ns><id>7472</id><revision><id>28268</id><timestamp>2013-09-05T15:34:13Z</timestamp><text>{{TemplateMapping
 | mapToClass = PoliticalParty
 | mappings =
@@ -10888,7 +10937,11 @@ Temperature }}
        {{PropertyMapping | templateProperty = note16 | ontologyProperty = comment }}
    }}
    {{PropertyMapping | templateProperty = total_temps | ontologyProperty = runtime | unit = minute }}
+<<<<<<< HEAD
 }}</text></revision></page><page><title>Mapping fr:Single</title><ns>210</ns><id>13830</id><revision><id>57185</id><timestamp>2022-03-17T09:08:58Z</timestamp><text>&lt;!-- dummy file: to be deleted  --&gt;</text></revision></page><page><title>Mapping fr:Singles</title><ns>210</ns><id>13827</id><revision><id>57195</id><timestamp>2022-03-18T14:29:29Z</timestamp><text>{{TemplateMapping
+=======
+}}</text></revision></page><page><title>Mapping fr:Single</title><ns>210</ns><id>13830</id><revision><id>57185</id><timestamp>2022-03-17T09:08:58Z</timestamp><text>&lt;!-- dummy file: to be deleted  --></text></revision></page><page><title>Mapping fr:Singles</title><ns>210</ns><id>13827</id><revision><id>57195</id><timestamp>2022-03-18T14:29:29Z</timestamp><text>{{TemplateMapping
+>>>>>>> 50fcf195942a6078aaa51fdd2698a1b09f499243
 | mapToClass            = SingleList
 | mappings              =
          {{PropertyMapping | templateProperty = single 1  | ontologyProperty = singleOf }}
@@ -10971,7 +11024,11 @@ image icone a droite du nom
         {{PropertyMapping | templateProperty = taille   | ontologyProperty = title }}
 nbre de fois successives ou le nom sera utilise /fusion colonne centrale
         {{PropertyMapping | templateProperty = nbno     | ontologyProperty = title }}
+<<<<<<< HEAD
 --&gt;
+=======
+-->
+>>>>>>> 50fcf195942a6078aaa51fdd2698a1b09f499243
         {{PropertyMapping | templateProperty = nom | ontologyProperty = title }}
         {{PropertyMapping | templateProperty = nom | ontologyProperty = category }}
         {{DateIntervalMapping
@@ -11012,7 +11069,11 @@ X X  X  X      {{PropertyMapping | templateProperty = date suiv | ontologyProper
 
 TemplateMapping | mapToClass = Automobile | mappings = {{IntermediateNodeMapping | nodeClass = AutomobileEngine | correspondingProperty = engine | mappings = {{PropertyMapping | ontologyProperty = number | templateProperty = engine }} {{PropertyMapping | ontologyProperty = power | templateProperty = engine | unit = Power }} {{PropertyMapping | ontologyProperty = torque | templateProperty = engine | unit = newtonMeter }} }}
 
+<<<<<<< HEAD
  --&gt;
+=======
+ -->
+>>>>>>> 50fcf195942a6078aaa51fdd2698a1b09f499243
 
 
 {{TemplateMapping
@@ -11035,7 +11096,11 @@ TemplateMapping | mapToClass = Automobile | mappings = {{IntermediateNodeMapping
    {{PropertyMapping | templateProperty = suivant | ontologyProperty = subsequentWork }}
    {{PropertyMapping | templateProperty = date suiv | ontologyProperty = year }}
   }}
+<<<<<<< HEAD
  --&gt;
+=======
+ -->
+>>>>>>> 50fcf195942a6078aaa51fdd2698a1b09f499243
 }}</text></revision></page><page><title>Mapping fr:Taxobox</title><ns>210</ns><id>11834</id><revision><id>52030</id><timestamp>2017-04-14T13:13:35Z</timestamp><text>{{TemplateMapping
 | mapToClass = owl:Thing
 | mappings =
