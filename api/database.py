@@ -4,7 +4,7 @@ from typing import List, Dict, Any, Optional
 from functools import lru_cache
 import logging
 
-from config import DB_PATH, TABLE_NAME
+from .config import DB_PATH, TABLE_NAME
 
 logger = logging.getLogger(__name__)
 

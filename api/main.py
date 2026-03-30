@@ -3,9 +3,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import logging
 
-from config import API_TITLE, API_VERSION, API_DESCRIPTION
-from routes import router
-from database import db_manager
+from .config import API_TITLE, API_VERSION, API_DESCRIPTION
+from .routes import router
+from .database import db_manager
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

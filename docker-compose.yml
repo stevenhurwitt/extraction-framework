@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: wikipedia-api
+    ports:
+      - "8002:8002"
+    volumes:
+      # Mount the DuckDB database file
+      - ./wiki_data.duckdb:/app/wiki_data.duckdb:ro
+      # Optional: Mount the api directory for development hot-reload
+      # - ./api:/app/api
+    environment:
+      - DB_PATH=/app/wiki_data.duckdb
+      - PYTHONUNBUFFERED=1
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8002
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s

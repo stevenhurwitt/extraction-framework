@@ -1,8 +1,9 @@
 """Configuration settings for the Wikipedia DuckDB API."""
 from pathlib import Path
+import os
 
 # Database
-DB_PATH = Path('/home/steven/extraction-framework/wiki_data.duckdb')
+DB_PATH = Path(os.getenv('DB_PATH', '/app/wiki_data.duckdb'))
 TABLE_NAME = 'wiki_articles'
 
 # API

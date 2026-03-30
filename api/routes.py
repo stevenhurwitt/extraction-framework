@@ -3,9 +3,9 @@ from fastapi import APIRouter, Query, HTTPException, Path as FastAPIPath
 from typing import Optional
 import logging
 
-from models import Article, SearchResult, DatabaseStats, HealthResponse
-from database import db_manager
-from config import DEFAULT_LIMIT, MAX_LIMIT, DEFAULT_OFFSET
+from .models import Article, SearchResult, DatabaseStats, HealthResponse
+from .database import db_manager
+from .config import DEFAULT_LIMIT, MAX_LIMIT, DEFAULT_OFFSET
 
 logger = logging.getLogger(__name__)
 
