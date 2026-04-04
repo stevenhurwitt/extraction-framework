@@ -18,4 +18,4 @@ DEFAULT_OFFSET = 0
 
 # Cache settings
 ENABLE_CACHE = True
-CACHE_TTL = 3600  # 1 hour in seconds
+CACHE_TTL = 172800  # 2 days  in seconds
