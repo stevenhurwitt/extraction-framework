@@ -16,6 +16,8 @@ services:
     environment:
       - DB_PATH=/app/wiki_data.duckdb
       - PYTHONUNBUFFERED=1
+      - DUCKDB_MEMORY_LIMIT=4GB
+      - DUCKDB_THREADS=4
     command: uvicorn api.main:app --host 0.0.0.0 --port 8002
     restart: unless-stopped
     healthcheck:
