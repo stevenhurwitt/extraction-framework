@@ -1,10 +1,11 @@
 """Database connection and query utilities."""
 import duckdb
+import time
 from typing import List, Dict, Any, Optional
 from functools import lru_cache
 import logging
 
-from .config import DB_PATH, TABLE_NAME
+from .config import DB_PATH, TABLE_NAME, ENABLE_CACHE, CACHE_TTL
 
 logger = logging.getLogger(__name__)
 
@@ -20,6 +21,8 @@ class DatabaseManager:
         """
         self.db_path = db_path
         self._connection = None
+        self._stats_cache: Optional[Dict[str, Any]] = None
+        self._stats_cache_time: float = 0.0
 
     def get_connection(self) -> duckdb.DuckDBPyConnection:
         """Get or create database connection.
@@ -196,25 +199,39 @@ class DatabaseManager:
         Returns:
             Dictionary with database stats
         """
+        if ENABLE_CACHE and self._stats_cache is not None:
+            if time.monotonic() - self._stats_cache_time < CACHE_TTL:
+                return self._stats_cache
+
         con = self.get_connection()
-        
+
+        # Compute text lengths once in a subquery so LENGTH(text) is only
+        # evaluated once per row instead of four times.
         query = f"""
-            SELECT 
+            SELECT
                 COUNT(*) as total_articles,
-                AVG(LENGTH(text)) as avg_text_length,
-                MAX(LENGTH(text)) as max_text_length,
-                MIN(LENGTH(text)) as min_text_length
-            FROM {TABLE_NAME}
+                AVG(text_len) as avg_text_length,
+                MAX(text_len) as max_text_length,
+                MIN(text_len) as min_text_length
+            FROM (
+                SELECT LENGTH(text) AS text_len FROM {TABLE_NAME}
+            )
         """
         
         result = con.execute(query).fetchone()
         
-        return {
+        stats = {
             'total_articles': int(result[0]),
             'avg_text_length': float(result[1]) if result[1] else 0,
             'max_text_length': int(result[2]) if result[2] else 0,
             'min_text_length': int(result[3]) if result[3] else 0
         }
+
+        if ENABLE_CACHE:
+            self._stats_cache = stats
+            self._stats_cache_time = time.monotonic()
+
+        return stats
 
     def is_connected(self) -> bool:
         """Check if database is accessible.
