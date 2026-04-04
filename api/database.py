@@ -90,8 +90,8 @@ class DatabaseManager:
         for row in results:
             articles.append({
                 'title': row[0],
-                'text_length': row[2] if not include_text else row[2],
-                'text': row[1] if include_text else None
+                'text': row[1] if include_text else None,
+                'text_length': row[1] if not include_text else row[2],
             })
         
         return articles, total
