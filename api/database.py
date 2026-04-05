@@ -5,7 +5,7 @@ from typing import List, Dict, Any, Optional
 from functools import lru_cache
 import logging
 
-from .config import DB_PATH, TABLE_NAME, ENABLE_CACHE, CACHE_TTL
+from .config import DB_PATH, TABLE_NAME, ENABLE_CACHE, CACHE_TTL, DUCKDB_MEMORY_LIMIT
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +33,8 @@ class DatabaseManager:
         if self._connection is None:
             try:
                 self._connection = duckdb.connect(self.db_path, read_only=True)
-                logger.info(f"Connected to database: {self.db_path}")
+                self._connection.execute(f"SET memory_limit='{DUCKDB_MEMORY_LIMIT}'")
+                logger.info(f"Connected to database: {self.db_path} (memory limit: {DUCKDB_MEMORY_LIMIT})")
             except Exception as e:
                 logger.error(f"Failed to connect to database: {e}")
                 raise

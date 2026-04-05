@@ -19,3 +19,6 @@ DEFAULT_OFFSET = 0
 # Cache settings
 ENABLE_CACHE = True
 CACHE_TTL = 172800  # 2 days  in seconds
+
+# DuckDB memory limit (passed as a PRAGMA after connecting)
+DUCKDB_MEMORY_LIMIT = os.getenv('DUCKDB_MEMORY_LIMIT', '1GB')

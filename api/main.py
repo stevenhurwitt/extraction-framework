@@ -1,6 +1,7 @@
 """FastAPI application entry point."""
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+import gc
 import logging
 
 from .config import API_TITLE, API_VERSION, API_DESCRIPTION
@@ -31,6 +32,14 @@ app.add_middleware(
 
 # Include routers
 app.include_router(router, prefix="/api/v1", tags=["API v1"])
+
+
+@app.middleware("http")
+async def free_memory_after_request(request: Request, call_next):
+    """Run GC after each request to promptly release query result memory."""
+    response = await call_next(request)
+    gc.collect()
+    return response
 
 
 @app.on_event("startup")
