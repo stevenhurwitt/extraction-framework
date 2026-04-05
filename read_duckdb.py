@@ -11,7 +11,7 @@ parquet_files = sorted(data_dir.glob('wiki_data_batch_*.parquet'))
 print(f"Found {len(parquet_files)} parquet files")
 
 # Connect to DuckDB
-con = duckdb.connect('/home/steven/extraction-framework/wiki_data.duckdb')
+con = duckdb.connect('/home/steven/extraction-framework/wiki_data.duckdb', read_only=True)
 
 # Verify total count
 total = con.execute("SELECT COUNT(*) FROM wiki_articles").fetchone()[0]
@@ -34,7 +34,7 @@ print("\nFirst 10 articles:")
 print(result)
 
 # Search by title (example)
-search_term = 'linear algebra'
+search_term = 'Eminem'
 result = con.execute(f"""
     SELECT title, text
     FROM wiki_articles 

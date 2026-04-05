@@ -65,27 +65,23 @@ class DatabaseManager:
             Tuple of (articles list, total count)
         """
         con = self.get_connection()
-        
-        # Get total count
-        count_query = f"""
-            SELECT COUNT(*) as cnt FROM {TABLE_NAME}
-            WHERE title LIKE ?
-        """
-        total = con.execute(count_query, [f"%{query}%"]).fetchone()[0]
-        
-        # Select columns
+
+        # Fetch count and paginated results in a single pass using a window function.
         cols = "title, LENGTH(text) as text_length" if not include_text else "title, text, LENGTH(text) as text_length"
-        
-        # Get paginated results
+
         search_query = f"""
-            SELECT {cols} FROM {TABLE_NAME}
-            WHERE title LIKE ?
+            SELECT {cols}, COUNT(*) OVER () as total_count
+            FROM {TABLE_NAME}
+            WHERE title ILIKE ?
             LIMIT ? OFFSET ?
         """
-        
+
         results = con.execute(search_query, [f"%{query}%", limit, offset]).fetchall()
-        
-        # Convert tuples to dicts
+
+        if not results:
+            return [], 0
+
+        total = results[0][-1]
         articles = []
         for row in results:
             articles.append({
@@ -93,7 +89,7 @@ class DatabaseManager:
                 'text': row[1] if include_text else None,
                 'text_length': row[1] if not include_text else row[2],
             })
-        
+
         return articles, total
 
     def search_by_content(
@@ -113,25 +109,23 @@ class DatabaseManager:
             Tuple of (articles list, total count)
         """
         con = self.get_connection()
-        
-        # Get total count
-        count_query = f"""
-            SELECT COUNT(*) as cnt FROM {TABLE_NAME}
-            WHERE text LIKE ?
-        """
-        total = con.execute(count_query, [f"%{query}%"]).fetchone()[0]
-        
-        # Get paginated results
+
+        # Fetch count and paginated results in a single pass using a window function.
         search_query = f"""
-            SELECT title, LENGTH(text) as text_length FROM {TABLE_NAME}
-            WHERE text LIKE ?
+            SELECT title, LENGTH(text) as text_length, COUNT(*) OVER () as total_count
+            FROM {TABLE_NAME}
+            WHERE text ILIKE ?
             LIMIT ? OFFSET ?
         """
-        
+
         results = con.execute(search_query, [f"%{query}%", limit, offset]).fetchall()
-        
+
+        if not results:
+            return [], 0
+
+        total = results[0][2]
         articles = [{'title': row[0], 'text_length': row[1], 'text': None} for row in results]
-        
+
         return articles, total
 
     def get_article_by_title(self, title: str, include_text: bool = True) -> Optional[Dict[str, Any]]:
@@ -174,13 +168,14 @@ class DatabaseManager:
             Article dict or None if table is empty
         """
         con = self.get_connection()
-        
+
+        # Use USING SAMPLE for efficient random sampling instead of ORDER BY RANDOM()
+        # which requires a full table sort.
         cols = "title, LENGTH(text) as text_length" if not include_text else "title, text, LENGTH(text) as text_length"
         
         query = f"""
             SELECT {cols} FROM {TABLE_NAME}
-            ORDER BY RANDOM()
-            LIMIT 1
+            USING SAMPLE 1
         """
         
         result = con.execute(query).fetchone()

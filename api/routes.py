@@ -95,6 +95,25 @@ async def search_articles(
         raise HTTPException(status_code=500, detail="Search failed")
 
 
+@router.get("/articles/random", response_model=Article, tags=["Articles"])
+async def get_random_article(
+    include_text: bool = Query(False, description="Include full article text")
+):
+    """Get a random article."""
+    try:
+        article = db_manager.get_random_article(include_text)
+        
+        if article is None:
+            raise HTTPException(status_code=404, detail="No articles found in database")
+        
+        return Article(**article)
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error fetching random article: {e}")
+        raise HTTPException(status_code=500, detail="Failed to fetch random article")
+
+
 @router.get("/articles/{title}", response_model=Article, tags=["Articles"])
 async def get_article(
     title: str = FastAPIPath(..., min_length=1, max_length=256, description="Article title"),
@@ -113,22 +132,3 @@ async def get_article(
     except Exception as e:
         logger.error(f"Error fetching article: {e}")
         raise HTTPException(status_code=500, detail="Failed to fetch article")
-
-
-@router.get("/articles/random", response_model=Article, tags=["Articles"])
-async def get_random_article(
-    include_text: bool = Query(False, description="Include full article text")
-):
-    """Get a random article."""
-    try:
-        article = db_manager.get_random_article(include_text)
-        
-        if article is None:
-            raise HTTPException(status_code=404, detail="No articles found in database")
-        
-        return Article(**article)
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.error(f"Error fetching random article: {e}")
-        raise HTTPException(status_code=500, detail="Failed to fetch random article")
