@@ -73,7 +73,7 @@ The API will be available at `http://192.168.0.9:8002`
 curl "http://localhost:8002/api/v1/articles/search?q=Python&limit=5"
 
 # Search by content
-curl "http://localhost:8002/api/v1/articles/search?q=machine learning&search_type=content"
+curl "http://localhost:8002/api/v1/articles/search?q=machine%20learning&search_type=content"
 
 # Get specific article
 curl "http://localhost:8002/api/v1/articles/Python?include_text=true"
