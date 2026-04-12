@@ -22,3 +22,5 @@ api/__pycache__
 # duckdb database
 wiki_data.duckdb
 wiki_data.duckdb.wal
+
+*.pyc
