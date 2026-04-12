@@ -26,3 +26,14 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: wikipedia-frontend
+    ports:
+      - "3002:80"
+    depends_on:
+      - api
+    restart: unless-stopped

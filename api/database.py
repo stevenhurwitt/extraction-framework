@@ -2,10 +2,9 @@
 import duckdb
 import time
 from typing import List, Dict, Any, Optional
-from functools import lru_cache
 import logging
 
-from .config import DB_PATH, TABLE_NAME, ENABLE_CACHE, CACHE_TTL, DUCKDB_MEMORY_LIMIT
+from .config import DB_PATH, TABLE_NAME, ENABLE_CACHE, CACHE_TTL, DUCKDB_MEMORY_LIMIT, RECYCLE_AFTER
 
 logger = logging.getLogger(__name__)
 
@@ -21,15 +20,30 @@ class DatabaseManager:
         """
         self.db_path = db_path
         self._connection = None
+        self._request_count: int = 0
         self._stats_cache: Optional[Dict[str, Any]] = None
         self._stats_cache_time: float = 0.0
 
     def get_connection(self) -> duckdb.DuckDBPyConnection:
-        """Get or create database connection.
+        """Get or create database connection, recycling it periodically.
+
+        The connection is closed and reopened every RECYCLE_AFTER requests so
+        that DuckDB's internal buffer/cache memory is fully released rather than
+        accumulating for the lifetime of the process.
         
         Returns:
             DuckDB connection object
         """
+        self._request_count += 1
+        if self._connection is not None and self._request_count >= RECYCLE_AFTER:
+            logger.info(f"Recycling DuckDB connection after {self._request_count} requests")
+            try:
+                self._connection.close()
+            except Exception:
+                pass
+            self._connection = None
+            self._request_count = 0
+
         if self._connection is None:
             try:
                 self._connection = duckdb.connect(self.db_path, read_only=True)
@@ -77,19 +91,24 @@ class DatabaseManager:
             LIMIT ? OFFSET ?
         """
 
-        results = con.execute(search_query, [f"%{query}%", limit, offset]).fetchall()
+        cur = con.cursor()
+        try:
+            raw = cur.execute(search_query, [f"%{query}%", limit, offset]).fetchall()
+        finally:
+            cur.close()
 
-        if not results:
+        if not raw:
             return [], 0
 
-        total = results[0][-1]
+        total = raw[0][-1]
         articles = []
-        for row in results:
+        for row in raw:
             articles.append({
                 'title': row[0],
                 'text': row[1] if include_text else None,
                 'text_length': row[1] if not include_text else row[2],
             })
+        del raw
 
         return articles, total
 
@@ -119,13 +138,18 @@ class DatabaseManager:
             LIMIT ? OFFSET ?
         """
 
-        results = con.execute(search_query, [f"%{query}%", limit, offset]).fetchall()
+        cur = con.cursor()
+        try:
+            raw = cur.execute(search_query, [f"%{query}%", limit, offset]).fetchall()
+        finally:
+            cur.close()
 
-        if not results:
+        if not raw:
             return [], 0
 
-        total = results[0][2]
-        articles = [{'title': row[0], 'text_length': row[1], 'text': None} for row in results]
+        total = raw[0][2]
+        articles = [{'title': row[0], 'text_length': row[1], 'text': None} for row in raw]
+        del raw
 
         return articles, total
 
@@ -149,7 +173,11 @@ class DatabaseManager:
             LIMIT 1
         """
         
-        result = con.execute(query, [title]).fetchone()
+        cur = con.cursor()
+        try:
+            result = cur.execute(query, [title]).fetchone()
+        finally:
+            cur.close()
         
         if result is None:
             return None
@@ -179,7 +207,11 @@ class DatabaseManager:
             USING SAMPLE 1
         """
         
-        result = con.execute(query).fetchone()
+        cur = con.cursor()
+        try:
+            result = cur.execute(query).fetchone()
+        finally:
+            cur.close()
         
         if result is None:
             return None
@@ -214,7 +246,11 @@ class DatabaseManager:
             )
         """
         
-        result = con.execute(query).fetchone()
+        cur = con.cursor()
+        try:
+            result = cur.execute(query).fetchone()
+        finally:
+            cur.close()
         
         stats = {
             'total_articles': int(result[0]),
@@ -237,7 +273,11 @@ class DatabaseManager:
         """
         try:
             con = self.get_connection()
-            con.execute(f"SELECT 1 FROM {TABLE_NAME} LIMIT 1")
+            cur = con.cursor()
+            try:
+                cur.execute(f"SELECT 1 FROM {TABLE_NAME} LIMIT 1")
+            finally:
+                cur.close()
             return True
         except Exception as e:
             logger.error(f"Database connection check failed: {e}")

@@ -38,7 +38,11 @@ app.include_router(router, prefix="/api/v1", tags=["API v1"])
 async def free_memory_after_request(request: Request, call_next):
     """Run GC after each request to promptly release query result memory."""
     response = await call_next(request)
-    gc.collect()
+    # Collect all generations explicitly so short-lived result objects from
+    # DuckDB queries are freed before the next request arrives.
+    gc.collect(0)
+    gc.collect(1)
+    gc.collect(2)
     return response
 
 
