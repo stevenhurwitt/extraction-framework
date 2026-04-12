@@ -24,3 +24,4 @@ wiki_data.duckdb
 wiki_data.duckdb.wal
 
 *.pyc
+frontend/.env
