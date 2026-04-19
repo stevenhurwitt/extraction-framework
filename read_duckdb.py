@@ -34,7 +34,7 @@ print(f"\nTotal records in database: {total:,}")
 # print(result)
 
 # Search by title (example)
-search_term = 'George Clooney'
+search_term = 'Bill Clinton'
 result = con.execute(f"""
     SELECT title, text
     FROM wiki_articles 
