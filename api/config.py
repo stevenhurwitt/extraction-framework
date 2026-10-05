@@ -21,7 +21,7 @@ ENABLE_CACHE = True
 CACHE_TTL = 172800  # 2 days  in seconds
 
 # DuckDB memory limit (passed as a PRAGMA after connecting)
-DUCKDB_MEMORY_LIMIT = os.getenv('DUCKDB_MEMORY_LIMIT', '1GB')
+DUCKDB_MEMORY_LIMIT = os.getenv('DUCKDB_MEMORY_LIMIT', '12GB')
 
 # Recycle the DuckDB connection after this many requests to flush internal buffers.
 RECYCLE_AFTER = int(os.getenv('RECYCLE_AFTER', '500'))

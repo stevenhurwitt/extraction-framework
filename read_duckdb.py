@@ -5,7 +5,7 @@ from tqdm import tqdm
 from pprint import pprint
 
 # Alternative: Load one batch at a time with progress tracking
-data_dir = Path('/mnt/samsung/wiki-data-clean')
+data_dir = Path('/mnt/lacie/wiki-datalake-clean')
 parquet_files = sorted(data_dir.glob('wiki_data_batch_*.parquet'))
 
 print(f"Found {len(parquet_files)} parquet files")
@@ -29,12 +29,12 @@ print(f"\nTotal records in database: {total:,}")
 #print("Indexes created successfully")
 
 # Sample query: Get first 10 articles
-# result = con.execute("SELECT * FROM wiki_articles LIMIT 10").pl()
-# print("\nFirst 10 articles:")
-# print(result)
+result = con.execute("SELECT * FROM wiki_articles LIMIT 10").pl()
+print("\nFirst 10 articles:")
+print(result)
 
 # Search by title (example)
-search_term = 'Freddie Gibbs'
+search_term = 'Kanye West'
 result = con.execute(f"""
     SELECT title, text
     FROM wiki_articles 
@@ -45,11 +45,11 @@ print(f"\nSearch results for '{search_term}':")
 print(result)
 
 # Read first search result as dictionary/json
-# if len(result) > 0:
-#     first_entry = result.row(0, named=True)
+if len(result) > 0:
+    first_entry = result.row(0, named=True)
 
-#     print(f"\nFirst search result:")
-#     pprint(first_entry)
+    print(f"\nFirst search result:")
+    pprint(first_entry)
 
 # Get database statistics
 # stats = con.execute("""

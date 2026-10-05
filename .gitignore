@@ -23,5 +23,8 @@ api/__pycache__
 wiki_data.duckdb
 wiki_data.duckdb.wal
 
+wiki_data_2026.duckdb
+wiki_data_2026.duckdb.wal
+
 *.pyc
 frontend/.env

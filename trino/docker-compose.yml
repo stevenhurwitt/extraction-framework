@@ -1,0 +1,13 @@
+services:
+  trino:
+    image: trinodb/trino:latest
+    container_name: trino
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./catalog:/etc/trino/catalog
+      - ./metastore:/var/lib/trino/file-metastore
+      - /mnt/lacie/wiki-data-2026/enwiki/data:/data/enwiki:ro
+    environment:
+      JAVA_TOOL_OPTIONS: "-Xmx4G"
+    restart: unless-stopped
