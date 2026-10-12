@@ -83,7 +83,7 @@ def main():
     parser.add_argument("--tables", action="store_true", help="List tables in the catalog/schema")
     parser.add_argument("--describe", metavar="TABLE", help="Describe a table's columns")
     parser.add_argument("--format", choices=["table", "csv", "json"], default="table", help="Output format")
-    parser.add_argument("--limit", type=int, default=10, help="Row limit for the default sample query")
+    parser.add_argument("--limit", type=int, default=20, help="Row limit for the default sample query")
     parser.add_argument("--host", default="localhost", help="Trino host (default: localhost)")
     parser.add_argument("--port", type=int, default=8080, help="Trino port (default: 8080)")
     parser.add_argument("--user", default="trino", help="Trino user (default: trino)")
