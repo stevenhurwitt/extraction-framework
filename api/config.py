@@ -3,7 +3,7 @@ from pathlib import Path
 import os
 
 # Database
-DB_PATH = Path(os.getenv('DB_PATH', '/app/wiki_data.duckdb'))
+DB_PATH = Path(os.getenv('DB_PATH', '/app/wiki_data_2026.duckdb'))
 TABLE_NAME = 'wiki_articles'
 
 # API

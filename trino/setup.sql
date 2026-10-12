@@ -61,5 +61,5 @@ CREATE TABLE IF NOT EXISTS wiki.default.enwiki (
 )
 WITH (
   format = 'PARQUET',
-  external_location = 'file:///data/enwiki'
+  external_location = 'local:///data/enwiki'
 );

@@ -10,11 +10,11 @@ services:
       - "8002:8002"
     volumes:
       # Mount the DuckDB database file
-      - ./wiki_data.duckdb:/app/wiki_data.duckdb:ro
+      - ./wiki_data_2026.duckdb:/app/wiki_data_2026.duckdb:ro
       # Optional: Mount the api directory for development hot-reload
       # - ./api:/app/api
     environment:
-      - DB_PATH=/app/wiki_data.duckdb
+      - DB_PATH=/app/wiki_data_2026.duckdb
       - PYTHONUNBUFFERED=1
       - DUCKDB_MEMORY_LIMIT=12GB
       - DUCKDB_THREADS=4

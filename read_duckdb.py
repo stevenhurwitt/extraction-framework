@@ -11,7 +11,7 @@ parquet_files = sorted(data_dir.glob('wiki_data_batch_*.parquet'))
 print(f"Found {len(parquet_files)} parquet files")
 
 # Connect to DuckDB
-con = duckdb.connect('/home/steven/extraction-framework/wiki_data.duckdb', read_only=True)
+con = duckdb.connect('/home/steven/extraction-framework/wiki_data_2026.duckdb', read_only=True)
 
 # Verify total count
 total = con.execute("SELECT COUNT(*) FROM wiki_articles").fetchone()[0]
@@ -36,9 +36,9 @@ print(result)
 # Search by title (example)
 search_term = 'Kanye West'
 result = con.execute(f"""
-    SELECT title, text
+    SELECT name, abstract
     FROM wiki_articles 
-    WHERE title LIKE '%{search_term}%' 
+    WHERE name LIKE '%{search_term}%' 
     LIMIT 20
 """).pl()
 print(f"\nSearch results for '{search_term}':")

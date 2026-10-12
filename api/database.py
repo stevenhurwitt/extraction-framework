@@ -82,12 +82,12 @@ class DatabaseManager:
         con = self.get_connection()
 
         # Fetch count and paginated results in a single pass using a window function.
-        cols = "title, LENGTH(text) as text_length" if not include_text else "title, text, LENGTH(text) as text_length"
+        cols = "name AS title, LENGTH(abstract) AS text_length" if not include_text else "name AS title, abstract AS text, LENGTH(abstract) AS text_length"
 
         search_query = f"""
             SELECT {cols}, COUNT(*) OVER () as total_count
             FROM {TABLE_NAME}
-            WHERE title ILIKE ?
+            WHERE name ILIKE ?
             LIMIT ? OFFSET ?
         """
 
@@ -132,9 +132,9 @@ class DatabaseManager:
 
         # Fetch count and paginated results in a single pass using a window function.
         search_query = f"""
-            SELECT title, LENGTH(text) as text_length, COUNT(*) OVER () as total_count
+            SELECT name AS title, LENGTH(abstract) AS text_length, COUNT(*) OVER () as total_count
             FROM {TABLE_NAME}
-            WHERE text ILIKE ?
+            WHERE abstract ILIKE ?
             LIMIT ? OFFSET ?
         """
 
@@ -165,11 +165,11 @@ class DatabaseManager:
         """
         con = self.get_connection()
         
-        cols = "title, LENGTH(text) as text_length" if not include_text else "title, text, LENGTH(text) as text_length"
+        cols = "name AS title, LENGTH(abstract) AS text_length" if not include_text else "name AS title, abstract AS text, LENGTH(abstract) AS text_length"
         
         query = f"""
             SELECT {cols} FROM {TABLE_NAME}
-            WHERE title = ?
+            WHERE name = ?
             LIMIT 1
         """
         
@@ -200,7 +200,7 @@ class DatabaseManager:
 
         # Use USING SAMPLE for efficient random sampling instead of ORDER BY RANDOM()
         # which requires a full table sort.
-        cols = "title, LENGTH(text) as text_length" if not include_text else "title, text, LENGTH(text) as text_length"
+        cols = "name AS title, LENGTH(abstract) AS text_length" if not include_text else "name AS title, abstract AS text, LENGTH(abstract) AS text_length"
         
         query = f"""
             SELECT {cols} FROM {TABLE_NAME}
@@ -242,7 +242,7 @@ class DatabaseManager:
                 MAX(text_len) as max_text_length,
                 MIN(text_len) as min_text_length
             FROM (
-                SELECT LENGTH(text) AS text_len FROM {TABLE_NAME}
+                SELECT LENGTH(abstract) AS text_len FROM {TABLE_NAME}
             )
         """
         

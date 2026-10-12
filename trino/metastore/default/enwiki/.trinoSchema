@@ -1,0 +1,94 @@
+{
+  "writerVersion" : "483",
+  "owner" : "trino",
+  "tableType" : "EXTERNAL_TABLE",
+  "dataColumns" : [ {
+    "name" : "abstract",
+    "type" : "string",
+    "properties" : { }
+  }, {
+    "name" : "additional_entities",
+    "type" : "array<struct<aspects:array<string>,identifier:string,url:string>>",
+    "properties" : { }
+  }, {
+    "name" : "date_created",
+    "type" : "timestamp",
+    "properties" : { }
+  }, {
+    "name" : "date_modified",
+    "type" : "timestamp",
+    "properties" : { }
+  }, {
+    "name" : "description",
+    "type" : "string",
+    "properties" : { }
+  }, {
+    "name" : "event",
+    "type" : "struct<date_created:string,date_published:string,fail_count:bigint,fail_reason:string,identifier:string,type:string>",
+    "properties" : { }
+  }, {
+    "name" : "identifier",
+    "type" : "bigint",
+    "properties" : { }
+  }, {
+    "name" : "image",
+    "type" : "struct<content_url:string,height:bigint,width:bigint>",
+    "properties" : { }
+  }, {
+    "name" : "in_language",
+    "type" : "struct<identifier:string>",
+    "properties" : { }
+  }, {
+    "name" : "infoboxes",
+    "type" : "string",
+    "properties" : { }
+  }, {
+    "name" : "is_part_of",
+    "type" : "struct<identifier:string,url:string>",
+    "properties" : { }
+  }, {
+    "name" : "license",
+    "type" : "array<struct<identifier:string,name:string,url:string>>",
+    "properties" : { }
+  }, {
+    "name" : "main_entity",
+    "type" : "struct<identifier:string,url:string>",
+    "properties" : { }
+  }, {
+    "name" : "name",
+    "type" : "string",
+    "properties" : { }
+  }, {
+    "name" : "references",
+    "type" : "array<struct<identifier:string,metadata:string,source:struct<links:array<struct<text:string,url:string>>,value:string>,text:struct<links:array<struct<text:string,url:string>>,value:string>,type:string>>",
+    "properties" : { }
+  }, {
+    "name" : "sections",
+    "type" : "string",
+    "properties" : { }
+  }, {
+    "name" : "tables",
+    "type" : "string",
+    "properties" : { }
+  }, {
+    "name" : "url",
+    "type" : "string",
+    "properties" : { }
+  }, {
+    "name" : "version",
+    "type" : "struct<comment:string,editor:struct<date_started:timestamp,edit_count:bigint,groups:array<string>,has_advanced_rights:boolean,identifier:bigint,is_admin:boolean,is_anonymous:boolean,is_bot:boolean,is_patroller:boolean,name:string>,identifier:bigint,is_breaking_news:boolean,is_flagged_stable:boolean,is_minor_edit:boolean,maintenance_tags:string,noindex:boolean,number_of_characters:bigint,scores:struct<referenceneed:struct<reference_need_score:double>,referencerisk:struct<reference_risk_score:double>,revertrisk:struct<prediction:boolean,probability:struct<false:double,true:double>>>,size:struct<unit_text:string,value:bigint>,tags:array<string>>",
+    "properties" : { }
+  } ],
+  "partitionColumns" : [ ],
+  "parameters" : {
+    "trino_version" : "483",
+    "trino_query_id" : "20261008_224928_00012_2scax",
+    "transactional" : "false",
+    "auto.purge" : "false",
+    "EXTERNAL" : "TRUE"
+  },
+  "storageFormat" : "PARQUET",
+  "serdeParameters" : { },
+  "externalLocation" : "local:///data/enwiki",
+  "columnStatistics" : { }
+}
