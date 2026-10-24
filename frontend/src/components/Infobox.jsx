@@ -1,17 +1,42 @@
+function collectFields(node, out = []) {
+  for (const part of node.has_parts ?? []) {
+    if (part.type === 'field' && part.value) {
+      out.push([part.name, part.value]);
+    } else if (part.type === 'section') {
+      collectFields(part, out);
+    }
+  }
+  return out;
+}
+
+function findImage(node) {
+  for (const part of node.has_parts ?? []) {
+    if (part.type === 'image' && part.images?.length) {
+      return part.images[0].content_url;
+    }
+    if (part.type === 'section') {
+      const found = findImage(part);
+      if (found) return found;
+    }
+  }
+  return null;
+}
+
 export default function Infobox({ infobox }) {
-  const data = infobox.keyValue?.() ?? {};
-  const entries = Object.entries(data).filter(([, v]) => v);
-  if (!entries.length) return null;
+  const entries = collectFields(infobox);
+  const image = findImage(infobox);
+  if (!entries.length && !image) return null;
 
   return (
     <div className="infobox">
-      <div className="infobox-title">{infobox.type?.() ?? 'Infobox'}</div>
+      <div className="infobox-title">{infobox.name ?? 'Infobox'}</div>
+      {image && <img src={image} alt={infobox.name ?? ''} style={{ maxWidth: '100%' }} />}
       <table>
         <tbody>
-          {entries.map(([k, v]) => (
-            <tr key={k}>
+          {entries.map(([k, v], i) => (
+            <tr key={`${k}-${i}`}>
               <td>{k}</td>
-              <td>{String(v)}</td>
+              <td>{v}</td>
             </tr>
           ))}
         </tbody>

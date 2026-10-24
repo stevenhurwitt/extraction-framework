@@ -29,8 +29,8 @@ export default function ArticlePage() {
 
   return (
     <div className="container">
-      {article?.text
-        ? <ArticleRenderer title={article.title} wikitext={article.text} />
+      {article && (article.sections || article.text)
+        ? <ArticleRenderer article={article} />
         : <div className="loading">Article has no content.</div>
       }
     </div>

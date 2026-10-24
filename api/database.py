@@ -1,5 +1,6 @@
 """Database connection and query utilities."""
 import duckdb
+import json
 import time
 from typing import List, Dict, Any, Optional
 import logging
@@ -7,6 +8,17 @@ import logging
 from .config import DB_PATH, TABLE_NAME, ENABLE_CACHE, CACHE_TTL, DUCKDB_MEMORY_LIMIT, RECYCLE_AFTER
 
 logger = logging.getLogger(__name__)
+
+
+def _parse_json_column(value: Optional[str]) -> Optional[List[Any]]:
+    """Parse a JSON-encoded VARCHAR column (sections, infoboxes) into a list."""
+    if not value:
+        return None
+    try:
+        return json.loads(value)
+    except (TypeError, ValueError) as e:
+        logger.warning(f"Could not parse JSON column: {e}")
+        return None
 
 
 class DatabaseManager:
@@ -164,28 +176,45 @@ class DatabaseManager:
             Article dict or None if not found
         """
         con = self.get_connection()
-        
-        cols = "name AS title, LENGTH(abstract) AS text_length" if not include_text else "name AS title, abstract AS text, LENGTH(abstract) AS text_length"
-        
+
+        if include_text:
+            cols = (
+                "name AS title, LENGTH(abstract) AS text_length, abstract AS text, "
+                "description, url, CAST(date_modified AS VARCHAR) AS date_modified, "
+                "sections, infoboxes"
+            )
+        else:
+            cols = (
+                "name AS title, LENGTH(abstract) AS text_length, NULL AS text, "
+                "description, url, CAST(date_modified AS VARCHAR) AS date_modified, "
+                "NULL AS sections, NULL AS infoboxes"
+            )
+
         query = f"""
             SELECT {cols} FROM {TABLE_NAME}
             WHERE name = ?
             LIMIT 1
         """
-        
+
         cur = con.cursor()
         try:
             result = cur.execute(query, [title]).fetchone()
         finally:
             cur.close()
-        
+
         if result is None:
             return None
-        
-        if include_text:
-            return {'title': result[0], 'text': result[1], 'text_length': result[2]}
-        else:
-            return {'title': result[0], 'text_length': result[1], 'text': None}
+
+        return {
+            'title': result[0],
+            'text_length': result[1],
+            'text': result[2],
+            'description': result[3],
+            'url': result[4],
+            'date_modified': result[5],
+            'sections': _parse_json_column(result[6]),
+            'infoboxes': _parse_json_column(result[7]),
+        }
 
     def get_random_article(self, include_text: bool = False) -> Optional[Dict[str, Any]]:
         """Get a random article.

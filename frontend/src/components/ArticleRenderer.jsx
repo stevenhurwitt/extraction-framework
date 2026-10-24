@@ -1,32 +1,48 @@
-import wtf from 'wtf_wikipedia';
 import Infobox from './Infobox';
 
-export default function ArticleRenderer({ title, wikitext }) {
-  const doc = wtf(wikitext);
-  const infoboxes = doc.infoboxes();
-  const sections = doc.sections();
+function renderParts(parts = [], depth = 1) {
+  return parts.map((part, i) => {
+    if (part.type === 'section') {
+      return <Section key={i} section={part} depth={depth + 1} />;
+    }
+    if (part.type === 'paragraph' && part.value) {
+      return <p key={i}>{part.value}</p>;
+    }
+    if (part.type === 'list' && part.has_parts?.length) {
+      return (
+        <ul key={i}>
+          {part.has_parts.map((item, j) =>
+            item.value ? <li key={j}>{item.value}</li> : null
+          )}
+        </ul>
+      );
+    }
+    return null;
+  });
+}
+
+function Section({ section, depth = 1 }) {
+  const HeadingTag = depth === 1 ? 'h2' : 'h3';
+  return (
+    <div>
+      {section.name && <HeadingTag>{section.name}</HeadingTag>}
+      {renderParts(section.has_parts, depth)}
+    </div>
+  );
+}
+
+export default function ArticleRenderer({ article }) {
+  const sections = (article.sections ?? []).filter(s => s.type === 'section');
+  const infoboxes = (article.infoboxes ?? []).filter(b => b.type === 'infobox');
 
   return (
     <div className="article-layout">
       <div className="article-content">
-        <h1>{title}</h1>
-        {sections.map((section, i) => {
-          const depth = section.depth?.() ?? 0;
-          const heading = section.title?.();
-          const paragraphs = section.paragraphs?.() ?? [];
-
-          const HeadingTag = depth === 0 ? null : depth === 1 ? 'h2' : 'h3';
-
-          return (
-            <div key={i}>
-              {HeadingTag && heading && <HeadingTag>{heading}</HeadingTag>}
-              {paragraphs.map((para, j) => {
-                const text = para.text?.();
-                return text ? <p key={j}>{text}</p> : null;
-              })}
-            </div>
-          );
-        })}
+        <h1>{article.title}</h1>
+        {article.description && <p className="meta">{article.description}</p>}
+        {sections.length > 0
+          ? sections.map((section, i) => <Section key={i} section={section} />)
+          : article.text && <p>{article.text}</p>}
       </div>
 
       {infoboxes.length > 0 && (

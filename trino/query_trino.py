@@ -19,7 +19,7 @@ from trino.exceptions import TrinoQueryError, TrinoConnectionError
 
 DEFAULT_QUERY = "SELECT identifier, name, date_modified FROM enwiki LIMIT %(limit)s"
 MAX_CELL_WIDTH = 60
-
+MY_QUERY = "SELECT COUNT(*) FROM enwiki"
 
 def get_connection(args):
     return connect(
@@ -106,7 +106,7 @@ def main():
         sql = sys.stdin.read()
     else:
         sql = DEFAULT_QUERY % {"limit": args.limit}
-
+        #sql = MY_QUERY
     try:
         conn = get_connection(args)
     except TrinoConnectionError as exc:

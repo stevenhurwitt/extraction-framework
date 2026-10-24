@@ -1,20 +1,30 @@
 """Pydantic models for API requests and responses."""
-from typing import Optional, List
+from typing import Any, Optional, List
 from pydantic import BaseModel, Field
 
 
 class Article(BaseModel):
     """Single article data model."""
     title: str = Field(..., description="Article title")
-    text_length: Optional[int] = Field(None, description="Length of article text in characters")
-    text: Optional[str] = Field(None, description="Full article text")
+    text_length: Optional[int] = Field(None, description="Length of article abstract in characters")
+    text: Optional[str] = Field(None, description="Article abstract (plain text)")
+    description: Optional[str] = Field(None, description="Short description of the article")
+    url: Optional[str] = Field(None, description="Wikipedia URL of the article")
+    date_modified: Optional[str] = Field(None, description="Last modification timestamp")
+    sections: Optional[List[Any]] = Field(None, description="Structured article sections")
+    infoboxes: Optional[List[Any]] = Field(None, description="Structured infoboxes")
 
     class Config:
         json_schema_extra = {
             "example": {
                 "title": "Python",
                 "text_length": 50000,
-                "text": None
+                "text": None,
+                "description": "Programming language",
+                "url": "https://en.wikipedia.org/wiki/Python",
+                "date_modified": None,
+                "sections": None,
+                "infoboxes": None
             }
         }
 
