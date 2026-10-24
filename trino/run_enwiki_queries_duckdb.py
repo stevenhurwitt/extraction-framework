@@ -8,6 +8,7 @@ Usage (from the repo root, using the uv virtual environment):
     .venv/bin/python trino/run_enwiki_queries_duckdb.py
     .venv/bin/python trino/run_enwiki_queries_duckdb.py --only count,recent
     .venv/bin/python trino/run_enwiki_queries_duckdb.py --list
+    .venv/bin/python trino/run_enwiki_queries_duckdb.py --prepare  # one-time: adds ref_count column
 """
 
 import argparse
@@ -81,8 +82,10 @@ QUERIES = {
     ),
     "most_refs": (
         "Articles with the most references",
-        """SELECT name, len("references") AS ref_count
-           FROM wiki_articles ORDER BY ref_count DESC LIMIT 100""",
+        # Uses the materialized ref_count column (run --prepare first);
+        # falls back to computing len("references") if it doesn't exist.
+        """SELECT name, ref_count FROM wiki_articles
+           ORDER BY ref_count DESC LIMIT 100""",
     ),
     "per_month": (
         "Articles created per month",
@@ -91,6 +94,28 @@ QUERIES = {
            GROUP BY 1 ORDER BY 1 DESC LIMIT 24""",
     ),
 }
+
+
+def prepare(db_path):
+    """One-time setup: materialize len("references") into a ref_count column.
+
+    Computing len() over the nested references list for every article is the
+    slow part of the 'most_refs' query; a plain integer column lets DuckDB
+    scan a single small column instead. Requires write access to the DB.
+    """
+    conn = duckdb.connect(db_path)
+    with conn:
+        cols = {row[0] for row in conn.execute(
+            "SELECT column_name FROM information_schema.columns "
+            "WHERE table_name = 'wiki_articles'").fetchall()}
+        if "ref_count" in cols:
+            print("ref_count column already exists; nothing to do.")
+            return
+        print("Adding ref_count column...")
+        conn.execute("ALTER TABLE wiki_articles ADD COLUMN ref_count INTEGER")
+        start = time.monotonic()
+        conn.execute('UPDATE wiki_articles SET ref_count = len("references")')
+        print(f"Populated ref_count in {time.monotonic() - start:.2f}s.")
 
 
 def fmt(value):
@@ -118,7 +143,13 @@ def main():
     parser.add_argument("--only", help="Comma-separated query names to run (default: all)")
     parser.add_argument("--list", action="store_true", help="List available queries and exit")
     parser.add_argument("--db", default="/home/steven/extraction-framework/wiki_data_2026.duckdb", help="Path to DuckDB file")
+    parser.add_argument("--prepare", action="store_true",
+                        help="Materialize helper columns (ref_count) to speed up queries, then exit")
     args = parser.parse_args()
+
+    if args.prepare:
+        prepare(args.db)
+        return
 
     if args.list:
         for key, (title, _) in QUERIES.items():
@@ -134,6 +165,16 @@ def main():
 
     conn = duckdb.connect(args.db, read_only=True)
     with conn:
+        cols = {row[0] for row in conn.execute(
+            "SELECT column_name FROM information_schema.columns "
+            "WHERE table_name = 'wiki_articles'").fetchall()}
+        if "most_refs" in selected and "ref_count" not in cols:
+            print("(note: ref_count column missing; run with --prepare once to speed up most_refs)")
+            QUERIES["most_refs"] = (
+                QUERIES["most_refs"][0],
+                """SELECT name, len("references") AS ref_count
+                   FROM wiki_articles ORDER BY ref_count DESC LIMIT 100""",
+            )
         for key in selected:
             title, sql = QUERIES[key]
             print(f"\n=== [{key}] {title} ===")
