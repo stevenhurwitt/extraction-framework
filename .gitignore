@@ -26,5 +26,7 @@ wiki_data.duckdb.wal
 wiki_data_2026.duckdb
 wiki_data_2026.duckdb.wal
 
+creds.json
+
 *.pyc
 frontend/.env

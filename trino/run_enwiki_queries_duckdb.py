@@ -91,7 +91,7 @@ QUERIES = {
         "Articles created per month",
         """SELECT date_trunc('month', date_created) AS month, COUNT(*) AS articles
            FROM wiki_articles
-           GROUP BY 1 ORDER BY 1 DESC LIMIT 24""",
+           GROUP BY 1 ORDER BY 1 DESC LIMIT 36""",
     ),
 }
 

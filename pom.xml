@@ -55,6 +55,8 @@
         <!--<skipTests>false</skipTests>-->
         <gpg.keyname>AKSW.GPG</gpg.keyname>
         <github.repo.url>https://maven.pkg.github.com/DBpedia-Enterprise/extraction-framework</github.repo.url>
+	<maven.compiler.source>1.8</maven.compiler.source>
+	<maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <modules>
