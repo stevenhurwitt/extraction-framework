@@ -8,6 +8,7 @@ services:
       - ./catalog:/etc/trino/catalog
       - ./metastore:/var/lib/trino/file-metastore
       - /mnt/lacie/wiki-data-2026/enwiki/data:/data/enwiki:ro
+      - /mnt/lacie/wiki-data-2026/enwiki/updates:/data/enwiki_updates:ro
     environment:
       JAVA_TOOL_OPTIONS: "-Xmx4G"
     restart: unless-stopped

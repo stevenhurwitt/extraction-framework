@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Run a battery of useful queries against the Trino enwiki table.
+"""Run a battery of useful queries against the Trino enwiki_latest view.
+
+The view unions the base snapshot with incremental updates and dedupes by
+article identifier, so results reflect the latest known version of each article.
 
 Usage (from the repo root, using the uv virtual environment):
     .venv/bin/python trino/run_enwiki_queries.py
@@ -19,43 +22,43 @@ MAX_CELL_WIDTH = 50
 QUERIES = {
     "count": (
         "Total articles in enwiki",
-        "SELECT COUNT(*) AS total_articles FROM enwiki",
+        "SELECT COUNT(*) AS total_articles FROM enwiki_latest",
     ),
     "recent": (
         "Most recently modified articles",
         """SELECT name, date_modified, version.editor.name AS editor
-           FROM enwiki ORDER BY date_modified DESC LIMIT 10""",
+           FROM enwiki_latest ORDER BY date_modified DESC LIMIT 10""",
     ),
     "largest": (
         "Largest articles by character count",
         """SELECT name, version.number_of_characters AS chars
-           FROM enwiki ORDER BY chars DESC LIMIT 10""",
+           FROM enwiki_latest ORDER BY chars DESC LIMIT 10""",
     ),
     "editors": (
         "Most prolific editors",
         """SELECT version.editor.name AS editor, COUNT(*) AS edits
-           FROM enwiki GROUP BY 1 ORDER BY edits DESC LIMIT 10""",
+           FROM enwiki_latest GROUP BY 1 ORDER BY edits DESC LIMIT 10""",
     ),
     "revert_risk": (
         "Articles predicted to be reverted (revertrisk model)",
         """SELECT name, version.scores.revertrisk.probability."true" AS revert_prob
-           FROM enwiki WHERE version.scores.revertrisk.prediction = true
+           FROM enwiki_latest WHERE version.scores.revertrisk.prediction = true
            ORDER BY revert_prob DESC LIMIT 10""",
     ),
     "reference_need": (
         "Articles most in need of references",
         """SELECT name, version.scores.referenceneed.reference_need_score AS need_score
-           FROM enwiki ORDER BY need_score DESC LIMIT 10""",
+           FROM enwiki_latest ORDER BY need_score DESC LIMIT 10""",
     ),
     "editor_types": (
         "Edits by admin / anonymous status",
         """SELECT version.editor.is_admin, version.editor.is_anonymous, COUNT(*) AS articles
-           FROM enwiki GROUP BY 1, 2 ORDER BY articles DESC""",
+           FROM enwiki_latest GROUP BY 1, 2 ORDER BY articles DESC""",
     ),
     "most_refs": (
         "Articles with the most references",
         """SELECT name, cardinality("references") AS ref_count
-           FROM enwiki ORDER BY ref_count DESC LIMIT 10""",
+           FROM enwiki_latest ORDER BY ref_count DESC LIMIT 10""",
     ),
 }
 

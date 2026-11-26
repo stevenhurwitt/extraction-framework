@@ -1,0 +1,3 @@
+# Update the enwiki data lake 3x daily (00:05, 08:05, 16:05). Install with:
+#   sudo crontab /home/steven/extraction-framework/scripts/enwiki_update.cron
+5 */8 * * * /home/steven/extraction-framework/scripts/cron_update_enwiki.sh
